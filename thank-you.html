@@ -12,11 +12,6 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📘</text></svg>">
 
   <link rel="stylesheet" href="styles.css">
-  <style>
-    /* Security gate: Verified content hidden by default until payment parameters are verified */
-    #verifiedBox { display: none; }
-    #unverifiedBox { display: block; }
-  </style>
 </head>
 <body data-page="thanks">
 
@@ -32,96 +27,65 @@
   <main>
     <section class="hero" style="padding:clamp(40px,7vw,70px) 0">
       <div class="wrap narrow">
+        <div class="thankyou-box">
+          <div class="thankyou-icon" aria-hidden="true">✓</div>
+          <h1>Thank You — Your Copy of The AI Advantage Is Ready.</h1>
+          <p class="lead">Your purchase was successful. You can download your ebook below and start choosing your AI income path.</p>
 
-        <!-- 1. VERIFIED SUCCESSFUL PAYMENT STATE (shown only after payment is verified) -->
-        <div id="verifiedBox">
-          <div class="thankyou-box">
-            <div class="thankyou-icon" aria-hidden="true">✓</div>
-            <h1>Thank You — Your Copy of The AI Advantage Is Ready.</h1>
-            <p class="lead">Your purchase was successful. You can download your ebook below and start choosing your AI income path.</p>
-            <div>
-              <span class="payment-ref-badge" id="paymentRef" style="display:none"></span>
-            </div>
-
-            <div style="margin:28px 0 20px">
-              <a class="btn" data-download style="padding:18px 36px;font-size:1.1rem">
-                Download The AI Advantage →
-              </a>
-            </div>
-
-            <p class="note">Tip: Save the PDF to your device so you can open it anytime.</p>
+          <div style="margin:32px 0 20px">
+            <a class="btn" data-download href="https://drive.google.com/file/d/1LLabE2Wk8Qt897rd6fFAC2yrNghodadu/view?usp=sharing" target="_blank" rel="noopener noreferrer" style="padding:18px 36px;font-size:1.1rem">
+              Download The AI Advantage →
+            </a>
           </div>
 
-          <div style="margin-top:40px">
-            <div class="card">
-              <h2 style="font-size:1.4rem;margin-bottom:8px">What's Next?</h2>
-              <p style="color:var(--mute);margin-bottom:20px">Here is your recommended step-by-step path to start getting value today:</p>
+          <p class="note">Tip: Save the PDF to your device so you can open it anytime.</p>
+        </div>
 
-              <div class="next-steps-list">
-                <div class="next-step-item">
-                  <div>
-                    <b>1. Read the Guide</b>
-                    <span>Start with Chapter 1 to understand the real opportunity honestly, and Chapter 2 for your lean AI toolkit.</span>
-                  </div>
+        <div style="margin-top:40px">
+          <div class="card">
+            <h2 style="font-size:1.4rem;margin-bottom:8px">What's Next?</h2>
+            <p style="color:var(--mute);margin-bottom:20px">Here is your recommended step-by-step path to start getting value today:</p>
+
+            <div class="next-steps-list">
+              <div class="next-step-item">
+                <div>
+                  <b>1. Read the Guide</b>
+                  <span>Start with Chapter 1 to understand the real opportunity honestly, and Chapter 2 for your lean AI toolkit.</span>
                 </div>
-                <div class="next-step-item">
-                  <div>
-                    <b>2. Choose ONE Income Stream</b>
-                    <span>Use Chapter 9's comparison table and scoring exercise to select the single path that best fits your strengths.</span>
-                  </div>
+              </div>
+              <div class="next-step-item">
+                <div>
+                  <b>2. Choose ONE Income Stream</b>
+                  <span>Use Chapter 9's comparison table and scoring exercise to select the single path that best fits your strengths.</span>
                 </div>
-                <div class="next-step-item">
-                  <div>
-                    <b>3. Follow the 30-Day Launch Plan</b>
-                    <span>Turn to Chapter 11 for your week-by-week sprint and copy-and-paste client communication scripts.</span>
-                  </div>
+              </div>
+              <div class="next-step-item">
+                <div>
+                  <b>3. Follow the 30-Day Launch Plan</b>
+                  <span>Turn to Chapter 11 for your week-by-week sprint and copy-and-paste client communication scripts.</span>
                 </div>
-                <div class="next-step-item">
-                  <div>
-                    <b>4. Start Building Proof</b>
-                    <span>Create 3 practice samples or a working demo before reaching out to prospective clients.</span>
-                  </div>
+              </div>
+              <div class="next-step-item">
+                <div>
+                  <b>4. Start Building Proof</b>
+                  <span>Create 3 practice samples or a working demo before reaching out to prospective clients.</span>
                 </div>
-                <div class="next-step-item">
-                  <div>
-                    <b>5. Take Action</b>
-                    <span>Consistent outreach and real-world feedback are what lead to your first paying client.</span>
-                  </div>
+              </div>
+              <div class="next-step-item">
+                <div>
+                  <b>5. Take Action</b>
+                  <span>Consistent outreach and real-world feedback are what lead to your first paying client.</span>
                 </div>
               </div>
             </div>
           </div>
-
-          <div class="center" style="margin-top:32px">
-            <p style="font-size:0.95rem;color:var(--ink-light)">
-              Having trouble downloading your ebook? Contact <a data-support-email href="mailto:alinetstratix@gmail.com" style="color:var(--teal);font-weight:700">alinetstratix@gmail.com</a> (or WhatsApp <a data-support-whatsapp href="#" style="color:var(--teal);font-weight:700">+91 6399969642</a>) and include the email or phone number you used at checkout.
-            </p>
-          </div>
         </div>
 
-        <!-- 2. UNVERIFIED / ACCESS RESTRICTED STATE (shown by default if someone visits directly without payment) -->
-        <div id="unverifiedBox">
-          <div class="unverified-card">
-            <div class="unverified-icon" aria-hidden="true">⚠️</div>
-            <h2>Payment Verification Required</h2>
-            <p class="lead">Access to this download page is reserved for verified purchasers who completed payment through Razorpay.</p>
-            <p style="color:var(--ink-light);margin-top:16px">If you have not completed your purchase yet, please visit the sales page to get your copy of The AI Advantage:</p>
-
-            <div style="margin:28px 0 20px">
-              <a class="btn" href="index.html">Go to Sales Page &amp; Complete Payment →</a>
-            </div>
-
-            <div style="margin-top:24px;padding-top:20px;border-top:1px solid var(--rule)">
-              <p class="note" style="margin-bottom:6px">Already completed your payment on Razorpay?</p>
-              <p style="font-size:0.92rem;color:var(--ink-light);margin:0">
-                Please contact support with your payment receipt ID and we will assist you immediately:
-                <br>
-                <a data-support-email href="mailto:alinetstratix@gmail.com" style="color:var(--teal);font-weight:700">alinetstratix@gmail.com</a> • WhatsApp <a data-support-whatsapp href="#" style="color:var(--teal);font-weight:700">+91 6399969642</a>
-              </p>
-            </div>
-          </div>
+        <div class="center" style="margin-top:32px">
+          <p style="font-size:0.95rem;color:var(--ink-light)">
+            Having trouble downloading your ebook? Contact <a data-support-email href="mailto:alinetstratix@gmail.com" style="color:var(--teal);font-weight:700">alinetstratix@gmail.com</a> (or WhatsApp <a data-support-whatsapp href="#" style="color:var(--teal);font-weight:700">+91 6399969642</a>) and include the email or phone number you used at checkout.
+          </p>
         </div>
-
       </div>
     </section>
   </main>
