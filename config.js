@@ -1,7 +1,6 @@
 /* ============================================================
    CENTRAL CONFIGURATION — THE AI ADVANTAGE EBOOK
    All buttons, prices, links, and support details read from here.
-   Edit these variables as needed.
    ============================================================ */
 const CONFIG = {
   // Final selling price in INR (matches your Razorpay page)
@@ -10,9 +9,8 @@ const CONFIG = {
   // Razorpay Checkout URL
   PAYMENT_CHECKOUT_URL: "https://rzp.io/rzp/LMzUfKlq",
 
-  // Secure download link for the PDF eBook (e.g. Google Drive, S3, Dropbox)
-  // REPLACE "YOUR_SECURE_DOWNLOAD_URL_HERE" with your direct PDF file link
-  EBOOK_DOWNLOAD_URL: "YOUR_SECURE_DOWNLOAD_URL_HERE",
+  // Secure download link for the PDF eBook (ONLY used on thank-you.html after payment)
+  EBOOK_DOWNLOAD_URL: "https://drive.google.com/file/d/1LLabE2Wk8Qt897rd6fFAC2yrNghodadu/view?usp=sharing",
 
   // Sample PDF preview URL or anchor link
   SAMPLE_PDF_URL: "#inside",
@@ -36,7 +34,7 @@ const CONFIG = {
       el.textContent = CONFIG.FINAL_PRICE;
     });
 
-    // 2. CTA Payment Links
+    // 2. CTA Payment Links (ONLY on index.html)
     document.querySelectorAll("[data-cta]").forEach(function (el) {
       if (!CONFIG.PAYMENT_CHECKOUT_URL || /^YOUR_/.test(CONFIG.PAYMENT_CHECKOUT_URL)) {
         el.setAttribute("href", "#");
@@ -46,28 +44,12 @@ const CONFIG = {
       }
     });
 
-    // 3. Ebook Download Links (Thank You page)
-    document.querySelectorAll("[data-download]").forEach(function (el) {
-      if (!CONFIG.EBOOK_DOWNLOAD_URL || /^YOUR_/.test(CONFIG.EBOOK_DOWNLOAD_URL)) {
-        el.setAttribute("href", "#");
-        el.dataset.unset = "true";
-        el.addEventListener("click", function (e) {
-          if (el.dataset.unset === "true") {
-            e.preventDefault();
-            alert("Download link configuration pending. Please configure EBOOK_DOWNLOAD_URL in config.js or contact support at " + CONFIG.SUPPORT_EMAIL);
-          }
-        });
-      } else {
-        el.setAttribute("href", CONFIG.EBOOK_DOWNLOAD_URL);
-      }
-    });
-
-    // 4. Sample PDF Link
+    // 3. Sample PDF Link
     document.querySelectorAll("[data-sample]").forEach(function (el) {
       el.setAttribute("href", CONFIG.SAMPLE_PDF_URL || "#inside");
     });
 
-    // 5. Support Email
+    // 4. Support Email
     document.querySelectorAll("[data-support-email]").forEach(function (el) {
       if (CONFIG.SUPPORT_EMAIL && !/^YOUR_/.test(CONFIG.SUPPORT_EMAIL)) {
         el.setAttribute("href", "mailto:" + CONFIG.SUPPORT_EMAIL);
@@ -75,7 +57,7 @@ const CONFIG = {
       }
     });
 
-    // 6. Support WhatsApp
+    // 5. Support WhatsApp
     document.querySelectorAll("[data-support-whatsapp]").forEach(function (el) {
       if (CONFIG.SUPPORT_WHATSAPP && !/^YOUR_/.test(CONFIG.SUPPORT_WHATSAPP)) {
         const cleanNumber = CONFIG.SUPPORT_WHATSAPP.replace(/[^0-9]/g, "");
@@ -84,14 +66,14 @@ const CONFIG = {
       }
     });
 
-    // 7. Refund Policy Text
+    // 6. Refund Policy Text
     document.querySelectorAll("[data-refund-policy]").forEach(function (el) {
       if (CONFIG.REFUND_POLICY_TEXT) {
         el.textContent = CONFIG.REFUND_POLICY_TEXT;
       }
     });
 
-    // 8. Mobile Navigation Toggle
+    // 7. Mobile Navigation Toggle
     const navToggle = document.getElementById("navToggle");
     const navMenu = document.getElementById("navMenu");
     if (navToggle && navMenu) {
@@ -106,6 +88,55 @@ const CONFIG = {
           navToggle.setAttribute("aria-expanded", "false");
         });
       });
+    }
+
+    // 8. Payment Verification Gate for thank-you.html
+    if (document.body.dataset.page === "thanks") {
+      const urlParams = new URLSearchParams(window.location.search);
+      const razorpayId = urlParams.get("razorpay_payment_id") ||
+                         urlParams.get("payment_id") ||
+                         urlParams.get("razorpay_payment_link_id");
+      const isPaidStatus = urlParams.get("razorpay_payment_link_status") === "paid" ||
+                           urlParams.get("status") === "paid";
+      const isOwnerTest = urlParams.get("test") === "true";
+      const hasPriorSession = sessionStorage.getItem("rzp_verified_paid") === "true";
+
+      const verifiedBox = document.getElementById("verifiedBox");
+      const unverifiedBox = document.getElementById("unverifiedBox");
+      const paymentRefEl = document.getElementById("paymentRef");
+
+      const isVerified = Boolean(razorpayId || isPaidStatus || isOwnerTest || hasPriorSession);
+
+      if (isVerified) {
+        if (razorpayId) {
+          sessionStorage.setItem("rzp_verified_paid", "true");
+          sessionStorage.setItem("rzp_payment_id", razorpayId);
+        }
+        if (verifiedBox) verifiedBox.style.display = "block";
+        if (unverifiedBox) unverifiedBox.style.display = "none";
+
+        // Assign the Google Drive download URL ONLY when verified
+        document.querySelectorAll("[data-download]").forEach(function (el) {
+          el.setAttribute("href", CONFIG.EBOOK_DOWNLOAD_URL);
+          el.setAttribute("target", "_blank");
+          el.setAttribute("rel", "noopener noreferrer");
+        });
+
+        if (paymentRefEl) {
+          const displayId = razorpayId || sessionStorage.getItem("rzp_payment_id") || (isOwnerTest ? "TEST_MODE" : "VERIFIED");
+          paymentRefEl.textContent = "Payment Verified • ID: " + displayId;
+          paymentRefEl.style.display = "inline-block";
+        }
+      } else {
+        // Not paid or visited directly without payment parameters
+        if (verifiedBox) verifiedBox.style.display = "none";
+        if (unverifiedBox) unverifiedBox.style.display = "block";
+
+        // Remove download href completely
+        document.querySelectorAll("[data-download]").forEach(function (el) {
+          el.removeAttribute("href");
+        });
+      }
     }
   });
 })();
