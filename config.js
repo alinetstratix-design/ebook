@@ -43,6 +43,16 @@ const CONFIG = {
       } else {
         el.setAttribute("href", CONFIG.PAYMENT_CHECKOUT_URL);
       }
+      if (!el.getAttribute("onclick") || !el.getAttribute("onclick").includes("InitiateCheckout")) {
+        el.addEventListener("click", function () {
+          if (typeof window.fbq === "function") {
+            window.fbq("track", "InitiateCheckout", {
+              value: parseFloat(CONFIG.FINAL_PRICE) || 99,
+              currency: "INR"
+            });
+          }
+        });
+      }
     });
 
     // 3. Ebook Download Links (Thank You page)
